@@ -1,34 +1,33 @@
 #ifndef SRC_TURNSTILE_H_
 #define SRC_TURNSTILE_H_
 
-#include <type_traits>
+#include <condition_variable>
 #include <cstddef>
 #include <mutex>
-#include <cassert>
-#include <thread>
 #include <queue>
-#include <condition_variable>
+#include <thread>
+#include <type_traits>
 
 struct Turnstile {
-    size_t waiting;
-    std::mutex *locker;
-    std::condition_variable cv;
-    bool goThrough;
+  size_t waiting;
+  std::mutex *locker;
+  std::condition_variable cv;
+  bool goThrough;
 
-    Turnstile();
-    ~Turnstile();
+  Turnstile();
+  ~Turnstile();
 };
 
 class Mutex {
  private:
-    Turnstile *local;
+  Turnstile *local;
 
  public:
-    Mutex();
-    Mutex(const Mutex&) = delete;
+  Mutex();
+  Mutex(const Mutex &) = delete;
 
-    void lock();    // NOLINT
-    void unlock();  // NOLINT
+  void lock();    // NOLINT
+  void unlock();  // NOLINT
 };
 
 #endif  // SRC_TURNSTILE_H_
