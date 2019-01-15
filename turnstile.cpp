@@ -136,10 +136,11 @@ void Mutex::unlock() {
     turnstiles().getLocalMutex(this).unlock();
   } else {
     this->local->locker->lock();
-    this->local->goThrough = true;
-    this->local->locker->unlock();
 
+    this->local->goThrough = true;
     this->local->cv.notify_one();
+
+    this->local->locker->unlock();
     turnstiles().getLocalMutex(this).unlock();
   }
 }
